@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.app.light {
+  background: #f4f6f8;
+  color: #111;
+}
+
+/* Dark Theme */
+.app.dark {
+  background: #0f172a;
+  color: #fff;
+}
+
+/* Common */
+.page {
+  padding: 20px;
+  min-height: 100vh;
+}
