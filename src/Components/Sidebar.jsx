@@ -38,25 +38,25 @@ const Sidebar = ({ activePage, setActivePage }) => {
 
       <nav>
         <a
-          className={`nav-item ${activePage === "all" ? "active" : ""}`}
+          href="/all" className={`nav-item ${activePage === "all" ? "active" : ""}`}
           onClick={() => setActivePage("all")}
         >
           All
         </a>
         <a
-          className={`nav-item ${activePage === "products" ? "active" : ""}`}
+          href="/products" className={`nav-item ${activePage === "products" ? "active" : ""}`}
           onClick={() => setActivePage("products")}
         >
           Products
         </a>
          <a
-          className={`nav-item ${activePage === "users" ? "active" : ""}`}
+          href="/users" className={`nav-item ${activePage === "users" ? "active" : ""}`}
           onClick={() => setActivePage("users")}
         >
           Users
         </a>
         <a
-          className={`nav-item ${activePage === "orders" ? "active" : ""}`}
+          href="/orders" className={`nav-item ${activePage === "orders" ? "active" : ""}`}
           onClick={() => setActivePage("orders")}
         >
           Orders
