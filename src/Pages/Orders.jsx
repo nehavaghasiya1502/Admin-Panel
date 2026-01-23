@@ -1,8 +1,23 @@
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
+import {
+  Box,
+  Typography,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Avatar,
+  Chip
+} from "@mui/material";
 
 const Orders = () => {
-  const { theme } = useContext(ThemeContext); // get current theme
+  const { theme } = useContext(ThemeContext);
+  const isDark = theme === "dark";
+
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -11,65 +26,123 @@ const Orders = () => {
       .then(data => setOrders(data));
   }, []);
 
-  // theme-based colors
-  const bgColor = theme === "dark" ? "#1e1e2f" : "#f9f9f9";
-  const cardBg = theme === "dark" ? "#2a2a3d" : "#fff";
-  const textColor = theme === "dark" ? "#fff" : "#333";
-  const borderColor = theme === "dark" ? "#444" : "#eee";
-  const headerBg = theme === "dark" ? "#29293f" : "#f0f0f0";
+  const bg = isDark
+    ? "radial-gradient(circle at top, #020617, #020617)"
+    : "#f1f5f9";
+
+  const cardBg = isDark
+    ? "linear-gradient(180deg, #020617, #020617)"
+    : "#ffffff";
+
+  const textMain = isDark ? "#f8fafc" : "#0f172a";
+  const textMuted = isDark ? "#cbd5f5" : "#475569";
+  const border = isDark ? "#1e293b" : "#e5e7eb";
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif", background: bgColor, minHeight: "100vh", color: textColor }}>
-      <h2 style={{ fontSize: "28px", marginBottom: "20px" }}>Orders</h2>
+    <Box sx={{ minHeight: "100vh", p: 4, background: bg }}>
+      <Typography
+        variant="h4"
+        fontWeight="bold"
+        mb={3}
+        sx={{ color: textMain }}
+      >
+        Orders
+      </Typography>
 
-      <div style={{
-        overflowX: "auto",
-        background: cardBg,
-        borderRadius: "8px",
-        boxShadow: theme === "dark" ? "0 4px 8px rgba(0,0,0,0.5)" : "0 4px 8px rgba(0,0,0,0.05)",
-        padding: "10px"
-      }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", color: textColor }}>
-          <thead>
-            <tr style={{ background: headerBg, textAlign: "left" }}>
-              <th style={{ padding: "12px 8px", color: textColor }}>Order ID</th>
-              <th style={{ padding: "12px 8px", color: textColor }}>User ID</th>
-              <th style={{ padding: "12px 8px", color: textColor }}>Date</th>
-              <th style={{ padding: "12px 8px", color: textColor }}>Total Items</th>
-              <th style={{ padding: "12px 8px", color: textColor }}>Status</th>
-            </tr>
-          </thead>
+      <Card
+        sx={{
+          background: cardBg,
+          borderRadius: 4,
+          p: 2,
+          boxShadow: isDark
+            ? "0 0 25px rgba(99,102,241,0.15)"
+            : "0 10px 25px rgba(0,0,0,0.08)"
+        }}
+      >
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ color: textMain, fontWeight: 700 }}>
+                  Order
+                </TableCell>
+                <TableCell sx={{ color: textMain, fontWeight: 700 }}>
+                  User
+                </TableCell>
+                <TableCell sx={{ color: textMain, fontWeight: 700 }}>
+                  Date
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: textMain, fontWeight: 700 }}
+                >
+                  Items
+                </TableCell>
+                <TableCell sx={{ color: textMain, fontWeight: 700 }}>
+                  Status
+                </TableCell>
+              </TableRow>
+            </TableHead>
 
-          <tbody>
-            {orders.map(o => (
-              <tr
-                key={o.id}
-                style={{ borderBottom: `1px solid ${borderColor}`, transition: "background 0.2s", cursor: "pointer" }}
-                onMouseEnter={e => e.currentTarget.style.background = theme === "dark" ? "#3a3a50" : "#f9f9f9"}
-                onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-              >
-                <td style={{ padding: "12px 8px" }}>#{o.id}</td>
-                <td style={{ padding: "12px 8px" }}>User {o.userId}</td>
-                <td style={{ padding: "12px 8px" }}>{o.date.slice(0, 10)}</td>
-                <td style={{ padding: "12px 8px", textAlign: "center" }}>{o.products.length}</td>
-                <td style={{ padding: "12px 8px" }}>
-                  <span style={{
-                    display: "inline-block",
-                    padding: "4px 10px",
-                    borderRadius: "12px",
-                    fontSize: "12px",
-                    color: "#fff",
-                    backgroundColor: "#f39c12" // orange for pending
-                  }}>
-                    Pending
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+            <TableBody>
+              {orders.map(o => (
+                <TableRow
+                  key={o.id}
+                  hover
+                  sx={{
+                    "& td": {
+                      borderBottom: `1px solid ${border}`,
+                      color: textMuted
+                    },
+                    "&:hover": {
+                      backgroundColor: isDark
+                        ? "rgba(99,102,241,0.08)"
+                        : "#f8fafc"
+                    }
+                  }}
+                >
+                  <TableCell>#{o.id}</TableCell>
+
+                  <TableCell>
+                    <Box display="flex" alignItems="center" gap={1.5}>
+                      <Avatar
+                        src={`https://i.pravatar.cc/150?img=${o.userId}`}
+                        sx={{
+                          width: 34,
+                          height: 34,
+                          border: "2px solid #6366f1"
+                        }}
+                      />
+                      <Typography sx={{ color: textMuted }}>
+                        User {o.userId}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>{o.date.slice(0, 10)}</TableCell>
+
+                  <TableCell align="center">
+                    {o.products.length}
+                  </TableCell>
+
+                  <TableCell>
+                    <Chip
+                      label="Pending"
+                      size="small"
+                      sx={{
+                        background: "linear-gradient(135deg,#f59e0b,#f97316)",
+                        color: "white",
+                        fontWeight: 600
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
+    </Box>
   );
 };
 
