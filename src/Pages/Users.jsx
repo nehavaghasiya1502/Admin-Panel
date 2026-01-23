@@ -11,7 +11,7 @@ import {
   Typography,
   LinearProgress,
   Box,
-  useTheme,
+  // useTheme,
 } from "@mui/material";
 
 import { SiVisa, SiStripe, SiPaypal, SiApplepay, SiMastercard } from "react-icons/si";
@@ -34,7 +34,7 @@ const countryFlags = {
 };
 
 const Users = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
