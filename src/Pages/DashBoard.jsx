@@ -1,5 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
+import UsersPieChart from "../Charts/UsersPieChart";
+import ProductsBarChart from "../Charts/ProductBarChart";
+import OrdersLineChart from "../Charts/OrdersLineChart";
 
 const DashBoard = ({ setActivePage }) => {
   const { theme } = useContext(ThemeContext);
@@ -69,9 +72,9 @@ const DashBoard = ({ setActivePage }) => {
               alignItems: "center",
               justifyContent: "center",
               transition: "0.3s",
-               boxShadow: isDark
-      ? "0 0 20px rgba(99,102,241,0.25)"  // reduced from 40px
-      : "0 8px 20px rgba(0,0,0,0.1)",    // reduced from 30px
+              boxShadow: isDark
+                ? "0 0 20px rgba(99,102,241,0.25)"  // reduced from 40px
+                : "0 8px 20px rgba(0,0,0,0.1)",    // reduced from 30px
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-10px) scale(1.05)"}
             onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0) scale(1)"}
@@ -84,8 +87,62 @@ const DashBoard = ({ setActivePage }) => {
             <div style={{ fontSize: "20px", opacity: 0.9 }}>{card.title}</div>
             <div style={{ fontSize: "50px", fontWeight: "bold", marginTop: "10px" }}>{card.value}</div>
           </div>
+
+
         ))}
       </div>
+
+      {/* ===== Charts Section ===== */}
+      <div style={{ marginTop: "80px" }}>
+
+        <h2 style={{ color: titleColor, marginBottom: "30px" }}>
+          Dashboard Analytics
+        </h2>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+          gap: "30px"
+        }}>
+
+          <div style={{
+            background: isDark ? "#020617" : "#ffffff",
+            padding: "20px",
+            borderRadius: "16px",
+            boxShadow: isDark
+              ? "0 0 15px rgba(99,102,241,0.2)"
+              : "0 8px 20px rgba(0,0,0,0.08)"
+          }}>
+            <UsersPieChart users={users} isDark={isDark} />
+          </div>
+
+          <div style={{
+            background: isDark ? "#020617" : "#ffffff",
+            padding: "20px",
+            borderRadius: "16px",
+            boxShadow: isDark
+              ? "0 0 15px rgba(99,102,241,0.2)"
+              : "0 8px 20px rgba(0,0,0,0.08)"
+          }}>
+            <ProductsBarChart products={products} isDark={isDark} />
+          </div>
+
+        </div>
+
+        <div style={{
+          marginTop: "40px",
+          background: isDark ? "#020617" : "#ffffff",
+          padding: "20px",
+          borderRadius: "16px",
+          boxShadow: isDark
+            ? "0 0 15px rgba(99,102,241,0.2)"
+            : "0 8px 20px rgba(0,0,0,0.08)"
+        }}>
+          <OrdersLineChart orders={orders} isDark={isDark} />
+        </div>
+
+      </div>
+
     </div>
   );
 };
