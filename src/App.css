@@ -44,6 +44,11 @@ body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
 }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 
 .app {
   display: flex;
@@ -164,6 +169,7 @@ body {
 
 .page-title {
   font-size: 26px;
+  margin-top: 80px;
   /* margin-bottom: 20px; */
 }
 
@@ -194,4 +200,142 @@ body {
 
 .sidebar.dark ~ .content .card {
   background: #0f172a;
+}
+/* =========================
+   PROFILE BOX HOVER EFFECT
+========================= */
+
+/* common profile box */
+.top-profile {
+  margin: 14px 0 10px;
+  padding: 12px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+/* DARK MODE */
+.sidebar.dark .top-profile {
+  background: linear-gradient(135deg, #040f3f, #202227);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.sidebar.dark .top-profile:hover {
+  transform: translateX(6px);
+  background: rgba(255,255,255,0.08);
+  /* box-shadow: 0 16px 30px rgba(0,0,0,0.6), */
+              /* 0 0 12px rgba(34,197,94,0.35); */
+}
+
+/* LIGHT MODE */
+.sidebar.light .top-profile {
+  background: white;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+.sidebar.light .top-profile:hover {
+  transform: translateX(6px);
+  /* box-shadow: 0 14px 26px rgba(0,0,0,0.12), */
+              /* 0 0 10px rgba(79,70,229,0.35); */
+}
+
+/* profile inside */
+.profile-avatar {
+  font-size: 32px !important;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.profile-role {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.profile-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+/* =========================
+   PRODUCTS TOP BAR
+========================= */
+
+.product-topbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+/* Search */
+.product-topbar input {
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+/* Dark mode */
+.sidebar.dark ~ .content .product-topbar input {
+  background: #020617;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* =========================
+   CATEGORY TABS
+========================= */
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-tabs button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: #e0e7ff;
+  color: #1e1b4b;
+  transition: 0.3s;
+}
+
+.category-tabs button:hover {
+  transform: translateY(-2px);
+}
+
+.category-tabs button.active {
+  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  color: white;
+}
+
+/* Dark */
+.sidebar.dark ~ .content .category-tabs button {
+  background: #0f172a;
+  color: #c7d2fe;
+}
+
+.sidebar.dark ~ .content .category-tabs button.active {
+  background: linear-gradient(135deg,#020617,#1e293b);
+  color: white;
 }
