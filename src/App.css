@@ -225,10 +225,8 @@ html, body {
 }
 
 .sidebar.dark .top-profile:hover {
-  transform: translateX(6px);
+  /* transform: translateX(6px); */
   background: rgba(255,255,255,0.08);
-  /* box-shadow: 0 16px 30px rgba(0,0,0,0.6), */
-              /* 0 0 12px rgba(34,197,94,0.35); */
 }
 
 /* LIGHT MODE */
@@ -238,9 +236,7 @@ html, body {
 }
 
 .sidebar.light .top-profile:hover {
-  transform: translateX(6px);
-  /* box-shadow: 0 14px 26px rgba(0,0,0,0.12), */
-              /* 0 0 10px rgba(79,70,229,0.35); */
+  /* transform: translateX(6px); */
 }
 
 /* profile inside */
@@ -254,8 +250,8 @@ html, body {
 
 .profile-name {
   margin: 0;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .profile-role {
@@ -338,4 +334,136 @@ html, body {
 .sidebar.dark ~ .content .category-tabs button.active {
   background: linear-gradient(135deg,#020617,#1e293b);
   color: white;
+}
+/* 🌞 LIGHT THEME – PRODUCTS CARD SHADOW */
+.sidebar.light ~ .content .card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+/* Hover – aur depth */
+.sidebar.light ~ .content .card:hover {
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.28);
+}
+.page-animate {
+  animation: fadeSlide 0.5s ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Scroll animation */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: all 0.45s ease;
+}
+
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Wrapper background */
+.login-wrapper.dark {
+  background: radial-gradient(circle at top, #020617, #020617);
+}
+
+.login-wrapper.light {
+  background: radial-gradient(circle at top, #f8fafc, #eef2ff);
+}
+
+/* Card */
+.login-card {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.login-wrapper.dark .login-card {
+  background: #0f172a;
+}
+
+.login-wrapper.light .login-card {
+  background: #ffffff;
+}
+
+/* Title */
+.login-title {
+  color: #020617;
+}
+
+.login-wrapper.dark .login-title {
+  color: #ffffff;
+}
+
+/* Subtitle */
+.login-subtitle {
+  color: #64748b;
+}
+
+.login-wrapper.dark .login-subtitle {
+  color: #94a3b8;
+}
+
+/* Inputs */
+.login-input input {
+  font-size: 14px;
+}
+
+/* Error */
+.login-error {
+  color: #ef4444;
+  font-size: 13px;
+}
+
+/* Button */
+.login-btn {
+  padding: 10px 0;
+  border-radius: 12px;
+  font-weight: 600;
+  color: black !important;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+/* ===== DARK THEME INPUT FIX ===== */
+
+.login-wrapper.dark .MuiOutlinedInput-root {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.login-wrapper.dark .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.login-wrapper.dark .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #6366f1;
+}
+
+.login-wrapper.dark .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #6366f1;
+}
+
+/* Label */
+.login-wrapper.dark .MuiInputLabel-root {
+  color: #94a3b8;
+}
+
+.login-wrapper.dark .MuiInputLabel-root.Mui-focused {
+  color: #6366f1;
+}
+
+/* Placeholder */
+.login-wrapper.dark input::placeholder {
+  color: #64748b;
+  opacity: 1;
 }

@@ -4,7 +4,7 @@ import UsersPieChart from "../Charts/UsersPieChart";
 import ProductsBarChart from "../Charts/ProductBarChart";
 import OrdersLineChart from "../Charts/OrdersLineChart";
 
-const DashBoard = ({ setActivePage }) => {
+const DashBoard = ({ setActivePage = () => {} }) => {
   const { theme } = useContext(ThemeContext);
   const isDark = theme === "dark";
 
@@ -58,7 +58,7 @@ const DashBoard = ({ setActivePage }) => {
         {cards.map((card, i) => (
           <div
             key={i}
-            onClick={() => setActivePage(card.page)}
+            onClick={() => setActivePage && setActivePage(card.page)}
             style={{
               flex: "1 1 300px",
               maxWidth: "350px",
@@ -73,8 +73,8 @@ const DashBoard = ({ setActivePage }) => {
               justifyContent: "center",
               transition: "0.3s",
               boxShadow: isDark
-                ? "0 0 20px rgba(99,102,241,0.25)"  // reduced from 40px
-                : "0 8px 20px rgba(0,0,0,0.1)",    // reduced from 30px
+                ? "0 0 20px rgba(99,102,241,0.25)"  
+                : "0 8px 20px rgba(0,0,0,0.1)",    
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-10px) scale(1.05)"}
             onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0) scale(1)"}

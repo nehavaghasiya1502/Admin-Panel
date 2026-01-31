@@ -1,201 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   Paper,
-//   Avatar,
-//   Typography,
-//   LinearProgress,
-//   Box,
-//   // useTheme,
-// } from "@mui/material";
-
-// import { SiVisa, SiStripe, SiPaypal, SiApplepay, SiMastercard } from "react-icons/si";
-
-// const paymentIcons = {
-//   visa: <SiVisa size={24} />,
-//   stripe: <SiStripe size={24} />,
-//   paypal: <SiPaypal size={24} />,
-//   apple: <SiApplepay size={24} />,
-//   mastercard: <SiMastercard size={24} />,
-// };
-
-// const countryFlags = {
-//   US: "🇺🇸",
-//   BR: "🇧🇷",
-//   IN: "🇮🇳",
-//   FR: "🇫🇷",
-//   ES: "🇪🇸",
-//   PL: "🇵🇱",
-// };
-
-// const Users = () => {
-//   // const theme = useTheme();
-//   const [users, setUsers] = useState([]);
-
-//   useEffect(() => {
-//     const data = [
-//       {
-//         id: 1,
-//         name: "Olivia Davis",
-//         avatar: "https://i.pravatar.cc/150?img=1",
-//         status: "online",
-//         country: "US",
-//         usage: 50,
-//         payment: "mastercard",
-//         lastLogin: "10 sec ago",
-//       },
-//       {
-//         id: 2,
-//         name: "Ishaan Roy",
-//         avatar: "https://i.pravatar.cc/150?img=2",
-//         status: "offline",
-//         country: "BR",
-//         usage: 22,
-//         payment: "visa",
-//         lastLogin: "5 minutes ago",
-//       },
-//       {
-//         id: 3,
-//         name: "Alex Brooks",
-//         avatar: "https://i.pravatar.cc/150?img=3",
-//         status: "away",
-//         country: "IN",
-//         usage: 74,
-//         payment: "stripe",
-//         lastLogin: "1 hour ago",
-//       },
-//       {
-//         id: 4,
-//         name: "Morgan Scott",
-//         avatar: "https://i.pravatar.cc/150?img=4",
-//         status: "offline",
-//         country: "FR",
-//         usage: 98,
-//         payment: "paypal",
-//         lastLogin: "Last month",
-//       },
-//       {
-//         id: 5,
-//         name: "Taylor Parker",
-//         avatar: "https://i.pravatar.cc/150?img=5",
-//         status: "online",
-//         country: "ES",
-//         usage: 22,
-//         payment: "apple",
-//         lastLogin: "Last week",
-//       },
-//       {
-//         id: 6,
-//         name: "Cameron Kelly",
-//         avatar: "https://i.pravatar.cc/150?img=6",
-//         status: "offline",
-//         country: "PL",
-//         usage: 43,
-//         payment: "visa",
-//         lastLogin: "Last week",
-//       },
-//     ];
-//     setUsers(data);
-//   }, []);
-
-//   // Status colors
-//   const statusColors = {
-//     online: "#4caf50",
-//     offline: "#f44336",
-//     away: "#ff9800",
-//   };
-
-//   return (
-//     <TableContainer component={Paper} sx={{ backgroundColor: "#1e1e2f", borderRadius: 2,marginTop: "100px" }}>
-//       <Table sx={{ minWidth: 650 }} aria-label="users table"> 
-//         <TableHead>
-//           <TableRow>
-//             <TableCell sx={{ color: "#fff" }}>User</TableCell>
-//             <TableCell sx={{ color: "#fff" }}>Country</TableCell>
-//             <TableCell sx={{ color: "#fff" }}>Usage</TableCell>
-//             <TableCell sx={{ color: "#fff" }}>Payment Method</TableCell>
-//             <TableCell sx={{ color: "#fff" }}>Activity</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-
-//           {users.map((user) => (
-//             <TableRow key={user.id} sx={{ "&:hover": { backgroundColor: "#2c2c3c" } }}>
-//               {/* User with avatar and status */}
-//               <TableCell sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-//                 <Box position="relative">
-//                   <Avatar src={user.avatar} alt={user.name} />
-//                   <Box
-//                     sx={{
-//                       width: 12,
-//                       height: 12,
-//                       borderRadius: "50%",
-//                       backgroundColor: statusColors[user.status],
-//                       position: "absolute",
-//                       bottom: 0,
-//                       right: 0,
-//                       border: "2px solid #1e1e2f",
-//                     }}
-//                   />
-//                 </Box>
-//                 <Box>
-//                   <Typography sx={{ color: "#fff" }}>{user.name}</Typography>
-//                   <Typography variant="body2" sx={{ color: "#aaa" }}>
-//                     Registered: Jan 1, 2023
-//                   </Typography>
-//                 </Box>
-//               </TableCell>
-
-//               {/* Country */}
-//               <TableCell sx={{ color: "#fff" }}>{countryFlags[user.country]}</TableCell>
-
-//               {/* Usage bar */}
-//               <TableCell sx={{ minWidth: 150 }}>
-//                 <Box display="flex" alignItems="center" gap={1}>
-//                   <Typography sx={{ color: "#fff", width: 30 }}>{user.usage}%</Typography>
-//                   <LinearProgress
-//                     variant="determinate"
-//                     value={user.usage}
-//                     sx={{
-//                       flex: 1,
-//                       height: 10,
-//                       borderRadius: 5,
-//                       backgroundColor: "#2c2c3c",
-//                       "& .MuiLinearProgress-bar": {
-//                         backgroundColor:
-//                           user.usage > 75
-//                             ? "#f44336"
-//                             : user.usage > 50
-//                             ? "#ff9800"
-//                             : "#4caf50",
-//                       },
-//                     }}
-//                   />
-//                 </Box>
-//               </TableCell>
-
-//               {/* Payment */}
-//               <TableCell sx={{ color: "#fff" }}>{paymentIcons[user.payment]}</TableCell>
-
-//               {/* Activity */}
-//               <TableCell sx={{ color: "#fff" }}>
-//                 <Typography variant="body2">Last login</Typography>
-//                 <Typography sx={{ fontWeight: 600 }}>{user.lastLogin}</Typography>
-//               </TableCell>
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//   );
-// };
-
-// export default Users;
 import React, { useEffect, useState } from "react";
 import {
   Avatar,
@@ -206,6 +8,8 @@ import {
   Chip,
   Pagination,
 } from "@mui/material";
+import { useContext } from "react";
+import { ThemeContext } from "../Context/ThemeContext";
 
 const statusList = ["online", "offline", "away"];
 const statusColors = {
@@ -246,10 +50,10 @@ const Users = () => {
   );
   const MAX_PAGES = 3;
 
-const totalPages = Math.min(
-  MAX_PAGES,
-  Math.ceil(filtered.length / USERS_PER_PAGE)
-);
+  const totalPages = Math.min(
+    MAX_PAGES,
+    Math.ceil(filtered.length / USERS_PER_PAGE)
+  );
 
 
   // const totalPages = Math.ceil(filtered.length / USERS_PER_PAGE);
@@ -259,8 +63,10 @@ const totalPages = Math.min(
     startIndex + USERS_PER_PAGE
   );
 
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <Box sx={{ mt: 10 }}>
+    <Box className="page-animate" sx={{ mt: 10 }}>
       {/* TOP BAR */}
       <Box
         display="flex"
@@ -285,15 +91,43 @@ const totalPages = Math.min(
           sx={{
             width: { xs: "100%", sm: 260 },
             mt: { xs: 1, sm: 0 },
+
             "& .MuiOutlinedInput-root": {
               borderRadius: "14px",
-              background: "var(--bg-card, #020617)",
-              color: "inherit",
+              background:
+                theme === "dark" ? "#020617" : "#ffffff",
+              color: theme === "dark" ? "#ffffff" : "#020617",
+              boxShadow:
+                theme === "dark"
+                  ? "0 8px 20px rgba(0,0,0,0.45)"
+                  : "0 8px 20px rgba(0,0,0,0.08)",
+
+              "& fieldset": {
+                borderColor:
+                  theme === "dark" ? "#1e293b" : "#e2e8f0",
+              },
+
+              "&:hover fieldset": {
+                borderColor:
+                  theme === "dark" ? "#38bdf8" : "#3b82f6",
+              },
+
+              "&.Mui-focused fieldset": {
+                borderColor:
+                  theme === "dark" ? "#22d3ee" : "#2563eb",
+                borderWidth: "2px",
+              },
+            },
+
+            "& input::placeholder": {
+              color:
+                theme === "dark" ? "#94a3b8" : "#64748b",
+              opacity: 1,
             },
           }}
         />
-      </Box>
 
+      </Box>
       {/* USERS GRID */}
       <Box
         sx={{
@@ -312,7 +146,10 @@ const totalPages = Math.min(
             key={user.id}
             sx={{
               background:
-                "linear-gradient(145deg, var(--bg-card,#020617), var(--bg-card-2,#0f172a))",
+                theme === "dark"
+                  ? "linear-gradient(145deg, #020617, #0f172a)"
+                  : "linear-gradient(145deg, #ffffff, #f1f5f9)",
+              color: theme === "dark" ? "#fff" : "#020617",
               borderRadius: "22px",
               padding: "18px",
               boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
@@ -334,7 +171,7 @@ const totalPages = Math.min(
                 <Typography
                   variant="body2"
                   sx={{
-                    color: "gray",
+                    color: theme === "dark" ? "#9ca3af" : "#64748b",
                     fontSize: "13px",
                     wordBreak: "break-all",
                     overflowWrap: "anywhere",
@@ -348,14 +185,18 @@ const totalPages = Math.min(
                 label={user.status}
                 size="small"
                 sx={{
-                  background: statusColors[user.status],
+                  background:
+                    theme === "dark"
+                      ? statusColors[user.status]
+                      : statusColors[user.status] + "cc",
                   color: "#fff",
                   fontWeight: 600,
                 }}
               />
+
             </Box>
 
-            <Typography fontSize={14} color="gray" mb={1}>
+            <Typography fontSize={14} c sx={{ color: theme === "dark" ? "#9ca3af" : "#475569" }}>
               🌍 {user.country}
             </Typography>
 

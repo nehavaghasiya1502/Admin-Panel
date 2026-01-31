@@ -29,6 +29,7 @@ const Products = () => {
 
   return (
     <>
+      <div className="page-animate">
       <h2 className="page-title">Products</h2>
 
       {/* 🔍 TOP BAR */}
@@ -69,6 +70,7 @@ const Products = () => {
             <p>₹ {p.price}</p>
           </div>
         ))}
+      </div>
       </div>
     </>
   );

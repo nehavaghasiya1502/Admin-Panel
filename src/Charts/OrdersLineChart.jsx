@@ -1,5 +1,11 @@
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid
 } from "recharts";
 
 const OrdersLineChart = ({ orders, isDark }) => {
@@ -9,7 +15,8 @@ const OrdersLineChart = ({ orders, isDark }) => {
   }));
 
   return (
-    <>
+    <div className="fade-card page-animate">
+
       <h3 style={{ color: isDark ? "#f8fafc" : "#020617" }}>
         Orders Activity
       </h3>
@@ -31,7 +38,8 @@ const OrdersLineChart = ({ orders, isDark }) => {
           />
         </LineChart>
       </ResponsiveContainer>
-    </>
+
+    </div>
   );
 };
 

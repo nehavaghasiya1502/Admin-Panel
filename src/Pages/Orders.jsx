@@ -354,6 +354,7 @@ const Orders = () => {
   const hoverBg = isDark ? "rgba(99,102,241,0.12)" : "#f8fafc";
 
   return (
+    <div className="page-animate">
     <Box sx={{ minHeight: "100vh", p: { xs: 2, md: 4 }, background: pageBg }}>
       {/* Title */}
       <Typography
@@ -487,6 +488,7 @@ const Orders = () => {
         </TableContainer>
       </Card>
     </Box>
+    </div>
   );
 };
 
