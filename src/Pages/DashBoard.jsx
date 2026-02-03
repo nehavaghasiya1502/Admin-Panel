@@ -4,7 +4,7 @@ import UsersPieChart from "../Charts/UsersPieChart";
 import ProductsBarChart from "../Charts/ProductBarChart";
 import OrdersLineChart from "../Charts/OrdersLineChart";
 
-const DashBoard = ({ setActivePage = () => {} }) => {
+const DashBoard = ({ setActivePage = () => { } }) => {
   const { theme } = useContext(ThemeContext);
   const isDark = theme === "dark";
 
@@ -13,8 +13,8 @@ const DashBoard = ({ setActivePage = () => {} }) => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/users").then(res => res.json()).then(setUsers);
     fetch("https://fakestoreapi.com/products").then(res => res.json()).then(setProducts);
+    fetch("https://dummyjson.com/users?limit=24").then(res => res.json()).then(data => setUsers(data.users));
     fetch("https://fakestoreapi.com/carts").then(res => res.json()).then(setOrders);
   }, []);
 
@@ -23,18 +23,18 @@ const DashBoard = ({ setActivePage = () => {} }) => {
 
   const cards = [
     {
-      title: "Total Users",
-      value: users.length,
-      icon: "👤",
-      page: "users",
-      gradient: isDark ? "linear-gradient(135deg,#064e3b,#022c22)" : "linear-gradient(135deg,#22c55e,#15803d)"
-    },
-    {
       title: "Total Products",
       value: products.length,
       icon: "🛍️",
       page: "products",
       gradient: isDark ? "linear-gradient(135deg,#1e3a8a,#020617)" : "linear-gradient(135deg,#3b82f6,#1d4ed8)"
+    },
+    {
+      title: "Total Users",
+      value: users.length,
+      icon: "👤",
+      page: "users",
+      gradient: isDark ? "linear-gradient(135deg,#064e3b,#022c22)" : "linear-gradient(135deg,#22c55e,#15803d)"
     },
     {
       title: "Total Orders",
@@ -73,8 +73,8 @@ const DashBoard = ({ setActivePage = () => {} }) => {
               justifyContent: "center",
               transition: "0.3s",
               boxShadow: isDark
-                ? "0 0 20px rgba(99,102,241,0.25)"  
-                : "0 8px 20px rgba(0,0,0,0.1)",    
+                ? "0 0 20px rgba(99,102,241,0.25)"
+                : "0 8px 20px rgba(0,0,0,0.1)",
             }}
             onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-10px) scale(1.05)"}
             onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0) scale(1)"}
@@ -92,7 +92,7 @@ const DashBoard = ({ setActivePage = () => {} }) => {
         ))}
       </div>
 
-      {/* ===== Charts Section ===== */}
+      {/*Charts */}
       <div style={{ marginTop: "80px" }}>
 
         <h2 style={{ color: titleColor, marginBottom: "30px" }}>

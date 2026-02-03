@@ -1,0 +1,127 @@
+/* PAGE CONTAINER */
+.add-product-page {
+  padding: 20px 20px;
+  max-height: calc(100vh - 160px); 
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: background 0.4s;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* HEADER */
+.add-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.add-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #9797bc;
+}
+
+/* CARD */
+.add-card {
+  max-width: 500px;
+  width: 100%;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(252, 251, 251, 0.8); 
+  box-shadow: 0 15px 35px rgba(11, 11, 11, 0.1);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+/* FORM */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  font-size: 15px;
+  color: #111827;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+}
+
+/* IMAGE PREVIEW */
+.image-preview {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.image-preview img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid #d1d5db;
+}
+
+/* SUBMIT BUTTON */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #584880, #2a4872);
+  color: #fff;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+}
+
+.add-product-page.dark .add-card {
+  background: rgba(31, 41, 55, 0.9);
+  color: #f9fafb;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.add-product-page.dark .form-group label {
+  color: #e5e7eb;
+}
+
+.add-product-page.dark input,
+.add-product-page.dark textarea,
+.add-product-page.dark select {
+  background: #111827;
+  color: #f9fafb;
+  border: 1px solid #374151;
+}
+
+.add-product-page.dark .submit-btn {
+  background: linear-gradient(135deg, #41416d, #38041e);
+}

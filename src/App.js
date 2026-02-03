@@ -8,35 +8,68 @@ import Users from "./Pages/Users";
 import Products from "./Pages/Products";
 import Orders from "./Pages/Orders";
 import Login from "./Pages/Login";
+import AddProduct from "./Pages/AddProducts";
 
 function App() {
   const [activePage, setActivePage] = useState("all");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // 🔐 CHECK LOGIN FROM LOCALSTORAGE
+  // PRODUCTS STATE (SINGLE SOURCE)
+  const [products, setProducts] = useState(() => {
+    const saved = localStorage.getItem("products");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [editProduct, setEditProduct] = useState(null);
+
+  // LOGIN CHECK
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn");
-    if (loggedIn === "true") {
-      setIsLoggedIn(true);
+    if (loggedIn === "true") setIsLoggedIn(true);
+  }, []);
+
+  // FETCH PRODUCTS (ONCE)
+  useEffect(() => {
+    if (products.length === 0) {
+      fetch("https://fakestoreapi.com/products")
+        .then(res => res.json())
+        .then(data => {
+          setProducts(data);
+          localStorage.setItem("products", JSON.stringify(data));
+        });
     }
   }, []);
 
-  // 🔓 LOGOUT HANDLER
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
+  // SAVE TO LOCALSTORAGE
+  useEffect(() => {
+    localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
 
-    setActivePage("all");
+  //  ADD
+  const addProduct = (product) => {
+    setProducts(prev => [{ id: Date.now(), ...product }, ...prev]);
+  };
+
+  //  UPDATE
+  const updateProduct = (product) => {
+    setProducts(prev =>
+      prev.map(p => (p.id === product.id ? product : p))
+    );
+    setEditProduct(null);
+  };
+
+  // LOGOUT
+  const handleLogout = () => {
+    localStorage.clear();
     setIsLoggedIn(false);
+    setActivePage("all");
   };
 
   return (
     <ThemeProvider>
       {!isLoggedIn ? (
-        // 🔐 LOGIN (theme context available)
         <Login setIsLoggedIn={setIsLoggedIn} />
       ) : (
-        // 🔓 ADMIN PANEL
         <div className="app">
           <Sidebar
             activePage={activePage}
@@ -45,22 +78,43 @@ function App() {
           />
 
           <main className="content">
-            {activePage === "dashboard" && (
-              <Dashboard setActivePage={setActivePage} />
+            {activePage === "dashboard" && <Dashboard />}
+
+            {activePage === "products" && (
+              <Products
+                products={products}
+                setProducts={setProducts}
+                setActivePage={setActivePage}
+                setEditProduct={setEditProduct}
+              />
             )}
 
-            {activePage === "products" && <Products />}
+            {activePage === "add-product" && (
+              <AddProduct
+                editProduct={editProduct}
+                onAddProduct={addProduct}
+                onUpdateProduct={updateProduct}
+                setActivePage={setActivePage}
+              />
+            )}
+
             {activePage === "users" && <Users />}
             {activePage === "orders" && <Orders />}
 
             {activePage === "all" && (
               <>
-                <Dashboard setActivePage={setActivePage} />
-                <Products />
+                <Dashboard />
+                <Products
+                  products={products}
+                  setProducts={setProducts}
+                  setActivePage={setActivePage}
+                  setEditProduct={setEditProduct}
+                />
                 <Users />
                 <Orders />
               </>
             )}
+
           </main>
         </div>
       )}

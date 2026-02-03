@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Avatar,
   Box,
@@ -7,8 +7,14 @@ import {
   CircularProgress,
   Chip,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
-import { useContext } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
 
 const statusList = ["online", "offline", "away"];
@@ -19,11 +25,14 @@ const statusColors = {
 };
 
 const USERS_PER_PAGE = 8;
+const MAX_PAGES = 3;
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     fetch("https://dummyjson.com/users?limit=100")
@@ -48,22 +57,17 @@ const Users = () => {
       u.name.toLowerCase().includes(search.toLowerCase()) ||
       u.email.toLowerCase().includes(search.toLowerCase())
   );
-  const MAX_PAGES = 3;
 
   const totalPages = Math.min(
     MAX_PAGES,
     Math.ceil(filtered.length / USERS_PER_PAGE)
   );
 
-
-  // const totalPages = Math.ceil(filtered.length / USERS_PER_PAGE);
   const startIndex = (page - 1) * USERS_PER_PAGE;
   const paginatedUsers = filtered.slice(
     startIndex,
     startIndex + USERS_PER_PAGE
   );
-
-  const { theme } = useContext(ThemeContext);
 
   return (
     <Box className="page-animate" sx={{ mt: 10 }}>
@@ -90,141 +94,156 @@ const Users = () => {
           }}
           sx={{
             width: { xs: "100%", sm: 260 },
-            mt: { xs: 1, sm: 0 },
-
             "& .MuiOutlinedInput-root": {
-              borderRadius: "14px",
-              background:
-                theme === "dark" ? "#020617" : "#ffffff",
-              color: theme === "dark" ? "#ffffff" : "#020617",
-              boxShadow:
-                theme === "dark"
-                  ? "0 8px 20px rgba(0,0,0,0.45)"
-                  : "0 8px 20px rgba(0,0,0,0.08)",
-
-              "& fieldset": {
-                borderColor:
-                  theme === "dark" ? "#1e293b" : "#e2e8f0",
-              },
-
-              "&:hover fieldset": {
-                borderColor:
-                  theme === "dark" ? "#38bdf8" : "#3b82f6",
-              },
-
-              "&.Mui-focused fieldset": {
-                borderColor:
-                  theme === "dark" ? "#22d3ee" : "#2563eb",
-                borderWidth: "2px",
-              },
-            },
-
-            "& input::placeholder": {
-              color:
-                theme === "dark" ? "#94a3b8" : "#64748b",
-              opacity: 1,
+              borderRadius: "12px",
+              background: theme === "dark" ? "#020617" : "#ffffff",
+              color: theme === "dark" ? "#fff" : "#020617",
             },
           }}
         />
-
       </Box>
-      {/* USERS GRID */}
-      <Box
+
+      {/* USERS TABLE */}
+      <TableContainer
+        component={Paper}
         sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-            lg: "repeat(4, 1fr)",
-          },
-          gap: "22px",
+          background:
+            theme === "dark"
+              ? "linear-gradient(145deg,#020617,#0f172a)"
+              : "#ffffff",
+          borderRadius: "16px",
+          overflowX: "auto",
+          boxShadow:
+            theme === "dark"
+              ? "0 10px 30px rgba(0,0,0,0.6)"
+              : "0 10px 25px rgba(0,0,0,0.12)",
         }}
       >
-        {paginatedUsers.map((user) => (
-          <Box
-            key={user.id}
-            sx={{
-              background:
-                theme === "dark"
-                  ? "linear-gradient(145deg, #020617, #0f172a)"
-                  : "linear-gradient(145deg, #ffffff, #f1f5f9)",
-              color: theme === "dark" ? "#fff" : "#020617",
-              borderRadius: "22px",
-              padding: "18px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
-              transition: "all .35s ease",
-              cursor: "pointer",
-              maxWidth: "100%",
-              overflow: "hidden",
-              "&:hover": {
-                transform: "translateY(-8px) scale(1.02)",
-                boxShadow: "0 25px 60px rgba(0,0,0,0.7)",
-              },
-            }}
-          >
-            {/* HEADER */}
-            <Box display="flex" alignItems="center" gap={2} mb={2}>
-              <Avatar src={user.avatar} sx={{ width: 56, height: 56 }} />
-              <Box flex={1}>
-                <Typography fontWeight={600}>{user.name}</Typography>
-                <Typography
-                  variant="body2"
+        <Table>
+          <TableHead>
+            <TableRow>
+              {["User", "Email", "Country", "Status", "Usage", "Last Login"].map(
+                (head) => (
+                  <TableCell
+                    key={head}
+                    sx={{
+                      fontWeight: 700,
+                      color: theme === "dark" ? "#e5e7eb" : "#020617",
+                      borderBottom:
+                        theme === "dark"
+                          ? "1px solid #1e293b"
+                          : "1px solid #e2e8f0",
+                    }}
+                  >
+                    {head}
+                  </TableCell>
+                )
+              )}
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {paginatedUsers.map((user) => (
+              <TableRow
+                key={user.id}
+                hover
+                sx={{
+                  "&:hover": {
+                    background:
+                      theme === "dark" ? "#020617" : "#f8fafc",
+                  },
+                }}
+              >
+                {/* USER */}
+                <TableCell>
+                  <Box display="flex" alignItems="center" gap={2}>
+                    <Avatar src={user.avatar} />
+                    {/* <Typography fontWeight={600}>
+                      {user.name}
+                    </Typography> */}
+                    <Typography
+                      fontWeight={600}
+                      sx={{ color: theme === "dark" ? "#e5e7eb" : "#020617" }}
+                    >
+                      {user.name}
+                    </Typography>
+
+                  </Box>
+                </TableCell>
+
+                {/* EMAIL */}
+                <TableCell
                   sx={{
-                    color: theme === "dark" ? "#9ca3af" : "#64748b",
-                    fontSize: "13px",
+                    color: theme === "dark" ? "#9ca3af" : "#475569",
                     wordBreak: "break-all",
-                    overflowWrap: "anywhere",
                   }}
                 >
                   {user.email}
-                </Typography>
-              </Box>
+                </TableCell>
 
-              <Chip
-                label={user.status}
-                size="small"
-                sx={{
-                  background:
-                    theme === "dark"
-                      ? statusColors[user.status]
-                      : statusColors[user.status] + "cc",
-                  color: "#fff",
-                  fontWeight: 600,
-                }}
-              />
+                {/* COUNTRY */}
+                <TableCell>🌍 {user.country}</TableCell>
 
-            </Box>
+                {/* STATUS */}
+                <TableCell>
+                  <Chip
+                    label={user.status}
+                    size="small"
+                    sx={{
+                      background: statusColors[user.status],
+                      color: "#fff",
+                      fontWeight: 600,
+                    }}
+                  />
+                </TableCell>
 
-            <Typography fontSize={14} c sx={{ color: theme === "dark" ? "#9ca3af" : "#475569" }}>
-              🌍 {user.country}
-            </Typography>
+                {/* USAGE */}
+                <TableCell>
+                  <Box display="flex" alignItems="center" gap={1}>
+                    {/* <CircularProgress
+                      variant="determinate"
+                      value={user.usage}
+                      size={28}
+                      sx={{ color: statusColors[user.status] }}
+                    /> */}
+                    <CircularProgress
+                      variant="determinate"
+                      value={user.usage}
+                      size={28}
+                      sx={{
+                        color: statusColors[user.status],
+                        "& .MuiCircularProgress-track": {
+                          color: theme === "dark" ? "#1e293b" : "#e5e7eb",
+                        },
+                      }}
+                    />
 
-            <Box display="flex" alignItems="center" gap={2}>
-              <CircularProgress
-                variant="determinate"
-                value={user.usage}
-                size={48}
-                sx={{ color: statusColors[user.status] }}
-              />
-              <Box>
-                <Typography fontSize={13} color="gray">
-                  Usage
-                </Typography>
-                <Typography fontWeight={600}>{user.usage}%</Typography>
-              </Box>
-            </Box>
+                    {/* <Typography fontWeight={600}>
+                      {user.usage}%
+                    </Typography> */}
+                    <Typography
+                      fontWeight={600}
+                      sx={{ color: theme === "dark" ? "#e5e7eb" : "#020617" }}
+                    >
+                      {user.usage}%
+                    </Typography>
 
-            <Typography mt={2} fontSize={13} color="gray">
-              Last login: {user.lastLogin}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+                  </Box>
+                </TableCell>
+
+                {/* LAST LOGIN */}
+                <TableCell sx={{ color: "gray" }}>
+                  {user.lastLogin}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       {/* PAGINATION */}
       {totalPages > 1 && (
-        <Box display="flex" justifyContent="center" mt={6}>
+        <Box display="flex" justifyContent="center" mt={5}>
           <Pagination
             count={totalPages}
             page={page}
@@ -232,20 +251,16 @@ const Users = () => {
             shape="rounded"
             sx={{
               "& .MuiPaginationItem-root": {
-                color: "#fff",
-                borderRadius: "10px",
+                color: theme === "dark" ? "#fff" : "#020617",
                 fontWeight: 600,
               },
               "& .Mui-selected": {
-                background: "linear-gradient(135deg,#3b82f6,#06b6d4)",
-                color: "#fff",
-              },
-              "& .MuiPaginationItem-previousNext": {
+                background:
+                  "linear-gradient(135deg,#3b82f6,#06b6d4)",
                 color: "#fff",
               },
             }}
           />
-
         </Box>
       )}
     </Box>

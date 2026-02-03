@@ -172,38 +172,7 @@ html, body {
   margin-top: 80px;
   /* margin-bottom: 20px; */
 }
-
-/* Cards */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
-  gap: 20px;
-}
-
-.card {
-  padding: 15px;
-  border-radius: 16px;
-  background: white;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-}
-
-.card img {
-  height: 120px;
-  object-fit: contain;
-  width: 100%;
-}
-
-.sidebar.dark ~ .content .card {
-  background: #0f172a;
-}
-/* =========================
-   PROFILE BOX HOVER EFFECT
-========================= */
+/* PROFILE BOX HOVER EFFECT*/
 
 /* common profile box */
 .top-profile {
@@ -267,10 +236,7 @@ html, body {
   display: flex;
   align-items: center;
 }
-/* =========================
-   PRODUCTS TOP BAR
-========================= */
-
+/* PRODUCTS TOP BAR */
 .product-topbar {
   display: flex;
   flex-direction: column;
@@ -295,10 +261,7 @@ html, body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* =========================
-   CATEGORY TABS
-========================= */
-
+/*CATEGORY TABS */
 .category-tabs {
   display: flex;
   flex-wrap: wrap;
