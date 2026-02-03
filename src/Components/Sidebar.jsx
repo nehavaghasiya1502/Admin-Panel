@@ -10,12 +10,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LogoutIcon from "@mui/icons-material/Logout";
-// import "./Sidebar.css";
-
 
 const Sidebar = ({ activePage, setActivePage, onLogout }) => {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
   const navItem = (name, label, Icon) => (
     <div
       className={`nav-item ${activePage === name ? "active" : ""}`}

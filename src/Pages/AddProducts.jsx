@@ -2,11 +2,11 @@ import { useState, useContext, useEffect } from "react";
 import { ThemeContext } from "../Context/ThemeContext";
 import "./AddProduct.css";
 
-const AddProduct = ({ 
-  setActivePage, 
-  onAddProduct, 
-  onUpdateProduct, 
-  editProduct 
+const AddProduct = ({
+  setActivePage,
+  onAddProduct,
+  onUpdateProduct,
+  editProduct
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -17,8 +17,7 @@ const AddProduct = ({
     image: "",
     stock: "",
   });
-
-  // Prefill form if editing
+  
   useEffect(() => {
     if (editProduct) {
       setFormData(editProduct);
@@ -47,7 +46,7 @@ const AddProduct = ({
     }
 
     if (editProduct) {
-      onUpdateProduct(formData); // update existing product
+      onUpdateProduct(formData); 
     } else {
       onAddProduct({
         title: formData.title,
@@ -93,18 +92,18 @@ const AddProduct = ({
 
         <div className="form-group">
           <label>Category</label>
-           <select
-    name="category"
-    value={formData.category}
-    onChange={handleChange}
-  >
-    <option value="">Select Category</option>
-    <option value="Electronics">Electronics</option>
-    <option value="Clothing">Jewelery</option>
-    <option value="Shoes">Men's Clothing</option>
-    <option value="Books">Women's Clothing</option>
-  </select>
-          
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+          >
+            <option value="">Select Category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Jewelery</option>
+            <option value="Shoes">Men's Clothing</option>
+            <option value="Books">Women's Clothing</option>
+          </select>
+
         </div>
 
         <div className="form-group">

@@ -9,12 +9,20 @@ import Products from "./Pages/Products";
 import Orders from "./Pages/Orders";
 import Login from "./Pages/Login";
 import AddProduct from "./Pages/AddProducts";
+import EditUser from "./Pages/EditUser";
 
 function App() {
-  const [activePage, setActivePage] = useState("all");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activePage, setActivePage] = useState(() => {
+  return localStorage.getItem("activePage") || "all";
+});
 
-  // PRODUCTS STATE (SINGLE SOURCE)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [users, setUsers] = useState([]);
+
+  // USERS EDIT
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  // PRODUCTS STATE
   const [products, setProducts] = useState(() => {
     const saved = localStorage.getItem("products");
     return saved ? JSON.parse(saved) : [];
@@ -22,13 +30,17 @@ function App() {
 
   const [editProduct, setEditProduct] = useState(null);
 
+  useEffect(() => {
+  localStorage.setItem("activePage", activePage);
+}, [activePage]);
+
   // LOGIN CHECK
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn");
     if (loggedIn === "true") setIsLoggedIn(true);
   }, []);
 
-  // FETCH PRODUCTS (ONCE)
+  // FETCH PRODUCTS
   useEffect(() => {
     if (products.length === 0) {
       fetch("https://fakestoreapi.com/products")
@@ -45,12 +57,12 @@ function App() {
     localStorage.setItem("products", JSON.stringify(products));
   }, [products]);
 
-  //  ADD
+  //  ADD PRODUCT
   const addProduct = (product) => {
     setProducts(prev => [{ id: Date.now(), ...product }, ...prev]);
   };
 
-  //  UPDATE
+  //  UPDATE PRODUCT
   const updateProduct = (product) => {
     setProducts(prev =>
       prev.map(p => (p.id === product.id ? product : p))
@@ -64,6 +76,12 @@ function App() {
     setIsLoggedIn(false);
     setActivePage("all");
   };
+
+  useEffect(() => {
+  if (!activePage) {
+    setActivePage("all");
+  }
+}, [activePage]);
 
   return (
     <ThemeProvider>
@@ -98,8 +116,23 @@ function App() {
               />
             )}
 
-            {activePage === "users" && <Users />}
+            {/* EDIT USER PAGE */}
+            {activePage === "edit-user" && selectedUser && (
+              <EditUser
+                user={selectedUser}
+                setUsers={setUsers}
+                setActivePage={setActivePage}
+              />
+            )}
             {activePage === "orders" && <Orders />}
+            {activePage === "users" && (
+              <Users
+                users={users}
+                setUsers={setUsers}
+                setSelectedUser={setSelectedUser} 
+                setActivePage={setActivePage}     
+              />
+            )}
 
             {activePage === "all" && (
               <>
@@ -110,16 +143,19 @@ function App() {
                   setActivePage={setActivePage}
                   setEditProduct={setEditProduct}
                 />
-                <Users />
+                <Users
+                  users={users}
+                  setUsers={setUsers}
+                  setSelectedUser={setSelectedUser}
+                  setActivePage={setActivePage}
+                />
                 <Orders />
               </>
             )}
-
           </main>
         </div>
       )}
     </ThemeProvider>
   );
 }
-
 export default App;

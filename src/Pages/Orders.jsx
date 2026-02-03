@@ -26,7 +26,7 @@ const Orders = () => {
       .then((data) => setOrders(data));
   }, []);
 
-  /* 🎨 Theme colors */
+  /* Theme colors */
   const pageBg = isDark ? "#020617" : "#f1f5f9";
   const cardBg = isDark ? "#020617" : "#ffffff";
   const textMain = isDark ? "#f8fafc" : "#0f172a";
@@ -50,7 +50,7 @@ const Orders = () => {
       {/* Card */}
       <Card
         sx={{
-          background: cardBg,          // ✅ FIX: dark me white nahi rahega
+          background: cardBg,         
           borderRadius: 4,
           boxShadow: isDark
             ? "0 0 30px rgba(99,102,241,0.18)"

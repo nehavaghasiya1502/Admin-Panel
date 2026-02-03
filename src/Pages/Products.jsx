@@ -3,40 +3,62 @@ import "./Products.css";
 import { Pagination, Box } from "@mui/material";
 import { ThemeContext } from "../Context/ThemeContext";
 
-const Products = ({ products, setProducts, setActivePage, setEditProduct }) => {
+const Products = ({
+  products,
+  setProducts,
+  setActivePage,
+  setEditProduct,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
+
   const ITEMS_PER_PAGE = 8;
 
+  /* FETCH CATEGORIES */
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/categories")
-      .then(res => res.json())
-      .then(data => setCategories(data));
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => setCategories([]));
   }, []);
 
-  const filteredProducts = products.filter(p => {
-    const catOk = selectedCategory === "all" || p.category === selectedCategory;
-    const searchOk = p.title.toLowerCase().includes(search.toLowerCase());
+  /* FILTER PRODUCTS */
+  const filteredProducts = products.filter((p) => {
+    const catOk =
+      selectedCategory === "all" || p.category === selectedCategory;
+    const searchOk = p.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
     return catOk && searchOk;
   });
 
-  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-  const start = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginated = filteredProducts.slice(start, start + ITEMS_PER_PAGE);
+  /* PAGINATION */
+  const totalPages = Math.ceil(
+    filteredProducts.length / ITEMS_PER_PAGE
+  );
 
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginated = filteredProducts.slice(
+    start,
+    start + ITEMS_PER_PAGE
+  );
+
+  /* DELETE */
   const deleteProduct = (id) => {
-    setProducts(products.filter(p => p.id !== id));
+    setProducts(products.filter((p) => p.id !== id));
   };
 
   return (
     <div className="products-page page-animate">
+      {/* HEADER */}
       <div className="products-header">
         <h2 className="page-title">Products</h2>
+
         <button
           className="add-product-btn"
           onClick={() => {
@@ -48,6 +70,7 @@ const Products = ({ products, setProducts, setActivePage, setEditProduct }) => {
         </button>
       </div>
 
+      {/* SEARCH + CATEGORY */}
       <div className="product-topbar">
         <input
           placeholder="Search product..."
@@ -66,11 +89,14 @@ const Products = ({ products, setProducts, setActivePage, setEditProduct }) => {
             All
           </button>
 
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <button
               key={cat}
               className={selectedCategory === cat ? "active" : ""}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setCurrentPage(1);
+              }}
             >
               {cat}
             </button>
@@ -78,6 +104,7 @@ const Products = ({ products, setProducts, setActivePage, setEditProduct }) => {
         </div>
       </div>
 
+      {/* TABLE */}
       <table className="products-table">
         <thead>
           <tr>
@@ -91,38 +118,71 @@ const Products = ({ products, setProducts, setActivePage, setEditProduct }) => {
         </thead>
 
         <tbody>
-          {paginated.map(p => (
-            <tr key={p.id}>
-              <td><img src={p.image} alt={p.title} /></td>
-              <td>{p.title}</td>
-              <td>₹ {p.price}</td>
-              <td>{p.category}</td>
-              <td>{p.stock || 0}</td>
-              <td>
-                <div className="action-btns">
-                  <button
-                    className="edit-btn"
-                    onClick={() => {
-                      setEditProduct(p);
-                      setActivePage("add-product");
-                    }}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteProduct(p.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
+          {/* NO DATA */}
+          {paginated.length === 0 ? (
+            <tr>
+              <td colSpan="6" className="no-data">
+                No products found
               </td>
             </tr>
-          ))}
+          ) : (
+            paginated.map((p) => {
+              const stock = Number(p.stock ?? 0);
+
+              return (
+                <tr key={p.id}>
+                  <td>
+                    <img src={p.image} alt={p.title} />
+                  </td>
+
+                  <td>{p.title}</td>
+
+                  <td>₹ {p.price}</td>
+
+                  {/* STOCK WITH DOT */}
+                  <td className="stock-cell">
+                    <span
+                      title={
+                        stock <= 4
+                          ? "Low / Out of stock"
+                          : "In stock"
+                      }
+                      className={`stock-dot ${stock <= 4 ? "low" : "ok"
+                        }`}
+                    ></span>
+                    {stock}
+                  </td>
+
+                  <td>{p.category}</td>
+
+                  <td>
+                    <div className="action-btns">
+                      <button
+                        className="edit-btn"
+                        onClick={() => {
+                          setEditProduct(p);
+                          setActivePage("add-product");
+                        }}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => deleteProduct(p.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
 
+      {/* PAGINATION */}
       {totalPages > 1 && (
         <Box display="flex" justifyContent="center" mt={4}>
           <Pagination
@@ -132,7 +192,8 @@ const Products = ({ products, setProducts, setActivePage, setEditProduct }) => {
             shape="rounded"
             sx={{
               "& .MuiPaginationItem-root": {
-                color: theme === "dark" ? "#e5e7eb" : "#020617",
+                color:
+                  theme === "dark" ? "#e5e7eb" : "#020617",
               },
               "& .Mui-selected": {
                 background:

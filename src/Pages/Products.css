@@ -141,7 +141,7 @@
   transition: all 0.25s ease;
 }
 
-/* ARROWS < > */
+/* ARROWS */
 .pagination button:first-child,
 .pagination button:last-child {
   font-size: 22px;
@@ -152,7 +152,7 @@
   color: #3b82f6;
 }
 
-/* ACTIVE PAGE (BLUE PILL – SAME AS USERS) */
+/* ACTIVE PAGE */
 .pagination button.active {
   background: linear-gradient(135deg, #3b82f6, #06b6d4);
   color: #ffffff;
@@ -182,3 +182,33 @@ body:not(.dark-theme) .pagination button:hover:not(.active) {
     font-size: 14px;
   }
 }
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+  font-weight: 500;
+}
+.stock-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* common circle */
+.stock-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* low stock red */
+.stock-dot.low {
+  background-color: #dc2626;
+}
+
+/* enough stock green */
+.stock-dot.ok {
+  background-color: #16a34a;
+}
+
