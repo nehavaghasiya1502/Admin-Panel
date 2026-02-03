@@ -38,7 +38,7 @@ function App() {
           localStorage.setItem("products", JSON.stringify(data));
         });
     }
-  }, []);
+  }, [products.length]);
 
   // SAVE TO LOCALSTORAGE
   useEffect(() => {
