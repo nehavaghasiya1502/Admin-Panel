@@ -32,10 +32,12 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 * {
   box-sizing: border-box;
 }
@@ -44,7 +46,9 @@ body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
 }
-html, body {
+
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -64,8 +68,9 @@ html, body {
   position: fixed;
   left: 0;
   top: 0;
-  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
 }
+
 .content {
   margin-left: 230px;
   height: 100vh;
@@ -74,6 +79,7 @@ html, body {
   flex: 1;
   background: #eef2ff;
 }
+
 .sidebar.light {
   background: #f5f7fb;
   color: #111;
@@ -99,21 +105,23 @@ html, body {
   font-weight: 500;
   transition: 0.3s;
 }
+
 .nav-item.active {
-  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: white;
 }
+
 .sidebar.dark .nav-item.active {
-  background: linear-gradient(135deg,#020617,#1e293b);
+  background: linear-gradient(135deg, #020617, #1e293b);
 }
 
 .nav-item:hover {
-  background: rgba(0,0,0,0.06);
+  background: rgba(0, 0, 0, 0.06);
   transform: translateX(6px);
 }
 
 .sidebar.dark .nav-item:hover {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Theme switch */
@@ -121,7 +129,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto; 
+  margin-top: auto;
 }
 
 .switch {
@@ -154,15 +162,15 @@ html, body {
   transition: 0.3s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background: #4f46e5;
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   transform: translateX(20px);
 }
 
-.sidebar.dark ~ .content {
+.sidebar.dark~.content {
   background: #020617;
   color: white;
 }
@@ -172,6 +180,7 @@ html, body {
   margin-top: 80px;
   /* margin-bottom: 20px; */
 }
+
 /* profile box */
 .top-profile {
   margin: 14px 0 10px;
@@ -188,18 +197,18 @@ html, body {
 /* DARK MODE */
 .sidebar.dark .top-profile {
   background: linear-gradient(135deg, #040f3f, #202227);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .sidebar.dark .top-profile:hover {
   /* transform: translateX(6px); */
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* LIGHT MODE */
 .sidebar.light .top-profile {
   background: white;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 /* profile inside */
@@ -230,6 +239,7 @@ html, body {
   display: flex;
   align-items: center;
 }
+
 /* PRODUCTS TOP BAR */
 .product-topbar {
   display: flex;
@@ -245,14 +255,14 @@ html, body {
   border: none;
   outline: none;
   font-size: 15px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
 /* Dark mode */
-.sidebar.dark ~ .content .product-topbar input {
+.sidebar.dark~.content .product-topbar input {
   background: #020617;
   color: white;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 /*CATEGORY TABS */
@@ -278,29 +288,31 @@ html, body {
 }
 
 .category-tabs button.active {
-  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: white;
 }
 
 /* Dark */
-.sidebar.dark ~ .content .category-tabs button {
+.sidebar.dark~.content .category-tabs button {
   background: #0f172a;
   color: #c7d2fe;
 }
 
-.sidebar.dark ~ .content .category-tabs button.active {
-  background: linear-gradient(135deg,#020617,#1e293b);
+.sidebar.dark~.content .category-tabs button.active {
+  background: linear-gradient(135deg, #020617, #1e293b);
   color: white;
 }
+
 /* LIGHT THEME – PRODUCTS CARD SHADOW */
-.sidebar.light ~ .content .card {
+.sidebar.light~.content .card {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 
 /* Hover – aur depth */
-.sidebar.light ~ .content .card:hover {
+.sidebar.light~.content .card:hover {
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.28);
 }
+
 .page-animate {
   animation: fadeSlide 0.5s ease;
 }
@@ -310,11 +322,13 @@ html, body {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 /* Scroll animation */
 .scroll-animate {
   opacity: 0;
@@ -326,6 +340,7 @@ html, body {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* Wrapper background */
 .login-wrapper.dark {
   background: radial-gradient(circle at top, #020617, #020617);
@@ -389,6 +404,7 @@ html, body {
 .login-btn:hover {
   opacity: 0.9;
 }
+
 /* ===== DARK THEME INPUT FIX ===== */
 
 .login-wrapper.dark .MuiOutlinedInput-root {
@@ -400,13 +416,11 @@ html, body {
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-.login-wrapper.dark .MuiOutlinedInput-root:hover
-  .MuiOutlinedInput-notchedOutline {
+.login-wrapper.dark .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
   border-color: #6366f1;
 }
 
-.login-wrapper.dark .MuiOutlinedInput-root.Mui-focused
-  .MuiOutlinedInput-notchedOutline {
+.login-wrapper.dark .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #6366f1;
 }
 
@@ -423,4 +437,74 @@ html, body {
 .login-wrapper.dark input::placeholder {
   color: #64748b;
   opacity: 1;
+}
+
+/* ===== HAMBURGER BUTTON ===== */
+.hamburger {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 1200;
+  cursor: pointer;
+  display: none;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 3px;
+  margin: 5px 0;
+  border-radius: 4px;
+  display: block;
+  transition: 0.3s;
+  background: #636465;
+  /* light theme */
+}
+
+/* DARK THEME */
+.dark .hamburger span {
+  background: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1100;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+
+  .content {
+    margin-left: 0;
+    padding-top: 80px;
+    /* ADMIN PANEL text ke liye space */
+  }
+}
+
+.logo {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  padding-left: 6px;
+}
+
+/* Dark theme logo fix */
+.sidebar.dark .logo {
+  color: #ffffff;
+}
+
+/* Light theme logo fix */
+.sidebar.light .logo {
+  color: #0f172a;
 }

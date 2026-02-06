@@ -72,7 +72,7 @@ const Users = ({ setActivePage, setSelectedUser }) => {
   };
 
   return (
-    <Box sx={{ mt: 10, px: 2 }}>
+    <Box sx={{ px: 2, mt: 4 }}>
       {/* Header */}
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={4} flexWrap="wrap" gap={2}>
         <Typography variant="h5" fontWeight={700}>Users</Typography>

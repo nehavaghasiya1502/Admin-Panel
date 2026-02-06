@@ -118,68 +118,53 @@ const Products = ({
         </thead>
 
         <tbody>
-          {/* NO DATA */}
-          {paginated.length === 0 ? (
-            <tr>
-              <td colSpan="6" className="no-data">
-                No products found
-              </td>
-            </tr>
-          ) : (
-            paginated.map((p) => {
-              const stock = Number(p.stock ?? 0);
+  {paginated.map((p) => {
+    const stock = Number(p.stock ?? 0);
 
-              return (
-                <tr key={p.id}>
-                  <td>
-                    <img src={p.image} alt={p.title} />
-                  </td>
+    return (
+      <tr key={p.id}>
+        <td data-label="Image">
+          <img src={p.image} alt={p.title} />
+        </td>
 
-                  <td>{p.title}</td>
+        <td data-label="Title">{p.title}</td>
 
-                  <td>₹ {p.price}</td>
+        <td data-label="Price">₹ {p.price}</td>
 
-                  {/* STOCK WITH DOT */}
-                  <td className="stock-cell">
-                    <span
-                      title={
-                        stock <= 4
-                          ? "Low / Out of stock"
-                          : "In stock"
-                      }
-                      className={`stock-dot ${stock <= 4 ? "low" : "ok"
-                        }`}
-                    ></span>
-                    {stock}
-                  </td>
+        <td data-label="Stock" className="stock-cell">
+          <span
+            className={`stock-dot ${stock <= 4 ? "low" : "ok"}`}
+          ></span>
+          {stock}
+        </td>
 
-                  <td>{p.category}</td>
+        <td data-label="Category">{p.category}</td>
 
-                  <td>
-                    <div className="action-btns">
-                      <button
-                        className="edit-btn"
-                        onClick={() => {
-                          setEditProduct(p);
-                          setActivePage("add-product");
-                        }}
-                      >
-                        Edit
-                      </button>
+        <td data-label="Action">
+          <div className="action-btns">
+            <button
+              className="edit-btn"
+              onClick={() => {
+                setEditProduct(p);
+                setActivePage("add-product");
+              }}
+            >
+              Edit
+            </button>
 
-                      <button
-                        className="delete-btn"
-                        onClick={() => deleteProduct(p.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })
-          )}
-        </tbody>
+            <button
+              className="delete-btn"
+              onClick={() => deleteProduct(p.id)}
+            >
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
       </table>
 
       {/* PAGINATION */}

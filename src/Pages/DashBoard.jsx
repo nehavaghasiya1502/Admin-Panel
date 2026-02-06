@@ -46,7 +46,13 @@ const DashBoard = ({ setActivePage = () => { } }) => {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", padding: "40px", background: pageBg }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        padding: window.innerWidth < 768 ? "8px" : "16px",
+        background: pageBg
+      }}
+    >
       <h1 style={{ color: titleColor, marginBottom: "40px" }}>Admin Dashboard</h1>
 
       <div style={{
@@ -62,7 +68,7 @@ const DashBoard = ({ setActivePage = () => { } }) => {
             style={{
               flex: "1 1 300px",
               maxWidth: "350px",
-              height: "400px",
+              minHeight: window.innerWidth < 768 ? "220px" : "360px",
               borderRadius: "15px",
               background: card.gradient,
               color: "white",
@@ -70,7 +76,7 @@ const DashBoard = ({ setActivePage = () => { } }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: window.innerWidth < 768 ? "stretch" : "center",
               transition: "0.3s",
               boxShadow: isDark
                 ? "0 0 20px rgba(99,102,241,0.25)"
@@ -87,13 +93,11 @@ const DashBoard = ({ setActivePage = () => { } }) => {
             <div style={{ fontSize: "20px", opacity: 0.9 }}>{card.title}</div>
             <div style={{ fontSize: "50px", fontWeight: "bold", marginTop: "10px" }}>{card.value}</div>
           </div>
-
-
         ))}
       </div>
 
       {/*Charts */}
-      <div style={{ marginTop: "80px" }}>
+      <div style={{ marginTop: window.innerWidth < 768 ? "40px" : "80px" }}>
 
         <h2 style={{ color: titleColor, marginBottom: "30px" }}>
           Dashboard Analytics
@@ -101,13 +105,13 @@ const DashBoard = ({ setActivePage = () => { } }) => {
 
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: "30px"
         }}>
 
           <div style={{
             background: isDark ? "#020617" : "#ffffff",
-            padding: "20px",
+            padding: window.innerWidth < 768 ? "12px" : "20px",
             borderRadius: "16px",
             boxShadow: isDark
               ? "0 0 15px rgba(99,102,241,0.2)"
@@ -126,7 +130,6 @@ const DashBoard = ({ setActivePage = () => { } }) => {
           }}>
             <ProductsBarChart products={products} isDark={isDark} />
           </div>
-
         </div>
 
         <div style={{
@@ -140,9 +143,7 @@ const DashBoard = ({ setActivePage = () => { } }) => {
         }}>
           <OrdersLineChart orders={orders} isDark={isDark} />
         </div>
-
       </div>
-
     </div>
   );
 };

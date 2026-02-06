@@ -12,17 +12,16 @@ import AddProduct from "./Pages/AddProducts";
 import EditUser from "./Pages/EditUser";
 
 function App() {
-  const [activePage, setActivePage] = useState(() => {
-  return localStorage.getItem("activePage") || "all";
-});
-
+  // DEFAULT PAGE (ALL removed)
+  const [activePage, setActivePage] = useState("dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // USERS EDIT
+  // USERS
+  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  // PRODUCTS STATE
+  // PRODUCTS
   const [products, setProducts] = useState(() => {
     const saved = localStorage.getItem("products");
     return saved ? JSON.parse(saved) : [];
@@ -30,39 +29,25 @@ function App() {
 
   const [editProduct, setEditProduct] = useState(null);
 
-  useEffect(() => {
-  localStorage.setItem("activePage", activePage);
-}, [activePage]);
-
   // LOGIN CHECK
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn");
     if (loggedIn === "true") setIsLoggedIn(true);
   }, []);
 
-  // FETCH PRODUCTS
-  useEffect(() => {
-    if (products.length === 0) {
-      fetch("https://fakestoreapi.com/products")
-        .then(res => res.json())
-        .then(data => {
-          setProducts(data);
-          localStorage.setItem("products", JSON.stringify(data));
-        });
-    }
-  }, [products.length]);
+  // LOGOUT
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsLoggedIn(false);
+    setActivePage("dashboard");
+  };
 
-  // SAVE TO LOCALSTORAGE
-  useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(products));
-  }, [products]);
-
-  //  ADD PRODUCT
+  // ADD PRODUCT
   const addProduct = (product) => {
     setProducts(prev => [{ id: Date.now(), ...product }, ...prev]);
   };
 
-  //  UPDATE PRODUCT
+  // UPDATE PRODUCT
   const updateProduct = (product) => {
     setProducts(prev =>
       prev.map(p => (p.id === product.id ? product : p))
@@ -70,29 +55,28 @@ function App() {
     setEditProduct(null);
   };
 
-  // LOGOUT
-  const handleLogout = () => {
-    localStorage.clear();
-    setIsLoggedIn(false);
-    setActivePage("all");
-  };
-
-  useEffect(() => {
-  if (!activePage) {
-    setActivePage("all");
-  }
-}, [activePage]);
-
   return (
     <ThemeProvider>
       {!isLoggedIn ? (
         <Login setIsLoggedIn={setIsLoggedIn} />
       ) : (
         <div className="app">
+          {/* HAMBURGER */}
+          <div
+            className="hamburger"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
           <Sidebar
             activePage={activePage}
             setActivePage={setActivePage}
             onLogout={handleLogout}
+            isOpen={sidebarOpen}
+            closeSidebar={() => setSidebarOpen(false)}
           />
 
           <main className="content">
@@ -116,7 +100,15 @@ function App() {
               />
             )}
 
-            {/* EDIT USER PAGE */}
+            {activePage === "users" && (
+              <Users
+                users={users}
+                setUsers={setUsers}
+                setSelectedUser={setSelectedUser}
+                setActivePage={setActivePage}
+              />
+            )}
+
             {activePage === "edit-user" && selectedUser && (
               <EditUser
                 user={selectedUser}
@@ -124,38 +116,13 @@ function App() {
                 setActivePage={setActivePage}
               />
             )}
-            {activePage === "orders" && <Orders />}
-            {activePage === "users" && (
-              <Users
-                users={users}
-                setUsers={setUsers}
-                setSelectedUser={setSelectedUser} 
-                setActivePage={setActivePage}     
-              />
-            )}
 
-            {activePage === "all" && (
-              <>
-                <Dashboard />
-                <Products
-                  products={products}
-                  setProducts={setProducts}
-                  setActivePage={setActivePage}
-                  setEditProduct={setEditProduct}
-                />
-                <Users
-                  users={users}
-                  setUsers={setUsers}
-                  setSelectedUser={setSelectedUser}
-                  setActivePage={setActivePage}
-                />
-                <Orders />
-              </>
-            )}
+            {activePage === "orders" && <Orders />}
           </main>
         </div>
       )}
     </ThemeProvider>
   );
 }
+
 export default App;
