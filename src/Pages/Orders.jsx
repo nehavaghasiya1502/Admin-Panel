@@ -15,8 +15,11 @@ import {
   TextField,
   Pagination,
 } from "@mui/material";
+import "./Orders.css";
 
 const ORDERS_PER_PAGE = 6;
+const STORAGE_KEY = "orders_data";
+
 
 const statusList = ["Pending", "Shipped", "Delivered"];
 const statusColor = {
@@ -35,18 +38,29 @@ const Orders = () => {
 
   /* FETCH ORDERS */
   useEffect(() => {
+  const storedOrders = localStorage.getItem(STORAGE_KEY);
+
+  if (storedOrders) {
+    // Refresh par same data
+    setOrders(JSON.parse(storedOrders));
+  } else {
+    // First time only
     fetch("https://fakestoreapi.com/carts")
       .then((res) => res.json())
       .then((data) => {
         const withStatus = data.map((o) => ({
           ...o,
-          status: statusList[Math.floor(Math.random() * 3)],
+          status: statusList[Math.floor(Math.random() * statusList.length)],
         }));
-        setOrders(withStatus);
-      });
-  }, []);
 
-  /* COUNTS FOR CARDS */
+        setOrders(withStatus);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(withStatus));
+      });
+  }
+}, []);
+
+
+  /* COUNTS */
   const totalOrders = orders.length;
   const pendingOrders = orders.filter(o => o.status === "Pending").length;
   const shippedOrders = orders.filter(o => o.status === "Shipped").length;
@@ -71,7 +85,9 @@ const Orders = () => {
   const paginatedOrders = filteredOrders.slice(start, start + ORDERS_PER_PAGE);
 
   return (
+    <div className="page-animate">
     <Box sx={{ minHeight: "100vh", p: { xs: 1.5, md: 4 }, background: pageBg }}>
+      
       {/* HEADER */}
       <Box
         display="flex"
@@ -102,10 +118,6 @@ const Orders = () => {
             },
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: border,
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: textMuted,
-              opacity: 1,
             },
           }}
         />
@@ -161,6 +173,8 @@ const Orders = () => {
       >
         <TableContainer>
           <Table>
+
+            {/* TABLE HEAD */}
             <TableHead>
               <TableRow>
                 <TableCell sx={{ color: textMain, fontWeight: 700 }}>
@@ -169,18 +183,19 @@ const Orders = () => {
                 <TableCell sx={{ color: textMain, fontWeight: 700 }}>
                   Details
                 </TableCell>
-                <TableCell sx={{ color: textMain, fontWeight: 700, display: { xs: "none", md: "table-cell" } }}>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
                   Date
                 </TableCell>
-                <TableCell sx={{ color: textMain, fontWeight: 700, display: { xs: "none", md: "table-cell" } }}>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
                   Items
                 </TableCell>
-                <TableCell sx={{ color: textMain, fontWeight: 700, display: { xs: "none", md: "table-cell" } }}>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
                   Status
                 </TableCell>
               </TableRow>
             </TableHead>
 
+            {/* TABLE BODY */}
             <TableBody>
               {paginatedOrders.map((o) => (
                 <TableRow
@@ -209,7 +224,7 @@ const Orders = () => {
                       </Typography>
                     </Box>
 
-                    {/* MOBILE */}
+                    {/* MOBILE CARD VIEW */}
                     <Box display={{ xs: "block", md: "none" }}>
                       <Typography fontWeight={600} sx={{ color: textMain }}>
                         Customer {o.userId}
@@ -281,6 +296,7 @@ const Orders = () => {
         )}
       </Card>
     </Box>
+    </div>
   );
 };
 

@@ -47,6 +47,7 @@ const DashBoard = ({ setActivePage = () => { } }) => {
 
   return (
     <div
+      className="page-animate"
       style={{
         minHeight: "100vh",
         padding: window.innerWidth < 768 ? "8px" : "16px",

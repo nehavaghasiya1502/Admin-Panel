@@ -118,52 +118,52 @@ const Products = ({
         </thead>
 
         <tbody>
-  {paginated.map((p) => {
-    const stock = Number(p.stock ?? 0);
+          {paginated.map((p) => {
+            const stock = Number(p.stock ?? 0);
 
-    return (
-      <tr key={p.id}>
-        <td data-label="Image">
-          <img src={p.image} alt={p.title} />
-        </td>
+            return (
+              <tr key={p.id}>
+                <td data-label="Image">
+                  <img src={p.image} alt={p.title} />
+                </td>
 
-        <td data-label="Title">{p.title}</td>
+                <td data-label="Title">{p.title}</td>
 
-        <td data-label="Price">₹ {p.price}</td>
+                <td data-label="Price">₹ {p.price}</td>
 
-        <td data-label="Stock" className="stock-cell">
-          <span
-            className={`stock-dot ${stock <= 4 ? "low" : "ok"}`}
-          ></span>
-          {stock}
-        </td>
+                <td data-label="Stock" className="stock-cell">
+                  <span
+                    className={`stock-dot ${stock <= 4 ? "low" : "ok"}`}
+                  ></span>
+                  {stock}
+                </td>
 
-        <td data-label="Category">{p.category}</td>
+                <td data-label="Category">{p.category}</td>
 
-        <td data-label="Action">
-          <div className="action-btns">
-            <button
-              className="edit-btn"
-              onClick={() => {
-                setEditProduct(p);
-                setActivePage("add-product");
-              }}
-            >
-              Edit
-            </button>
+                <td data-label="Action">
+                  <div className="action-btns">
+                    <button
+                      className="edit-btn"
+                      onClick={() => {
+                        setEditProduct(p);
+                        setActivePage("add-product");
+                      }}
+                    >
+                      Edit
+                    </button>
 
-            <button
-              className="delete-btn"
-              onClick={() => deleteProduct(p.id)}
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteProduct(p.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
 
       </table>
 

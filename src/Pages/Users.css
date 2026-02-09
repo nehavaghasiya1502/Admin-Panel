@@ -1,0 +1,74 @@
+/* ===== BASE ===== */
+.responsive-table {
+  width: 100%;
+}
+
+/* ===== MOBILE MODERN CARD VIEW ===== */
+@media (max-width: 768px) {
+
+  .responsive-table thead {
+    display: none;
+  }
+
+  .responsive-table tbody tr {
+    display: block;
+    margin-bottom: 18px;
+    padding: 16px;
+    border-radius: 18px;
+
+    /* modern glassy feel */
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02)
+    );
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .responsive-table tbody tr:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 16px 40px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .responsive-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    font-size: 14px;
+  }
+
+  .responsive-table tbody td:last-child {
+    border-bottom: none;
+    padding-top: 14px;
+  }
+
+  .responsive-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+
+  /* actions aligned like footer */
+  .actions-cell {
+    justify-content: flex-end !important;
+    gap: 10px;
+  }
+
+  /* avatar + name feel tighter */
+  .responsive-table tbody td:first-child {
+    gap: 12px;
+  }
+}

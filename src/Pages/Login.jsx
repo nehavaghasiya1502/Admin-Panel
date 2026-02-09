@@ -51,78 +51,99 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <Box
-      className={`login-wrapper ${theme}`}
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Card
-        className="login-card"
+    <div className="page-animate">
+      <Box
+        className={`login-wrapper ${theme}`}
         sx={{
-          width: 380,
-          p: 4,
-          borderRadius: "18px",
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Typography
-          className="login-title"
-          variant="h5"
-          fontWeight={700}
-          textAlign="center"
+        <Card
+          className="login-card"
+          sx={{
+            width: 380,
+            p: 4,
+            borderRadius: "18px",
+          }}
         >
-          Admin Login
-        </Typography>
-
-        <Typography
-          className="login-subtitle"
-          fontSize={14}
-          textAlign="center"
-          mt={1}
-        >
-          Login with admin or super admin credentials
-        </Typography>
-
-        <Divider sx={{ my: 3 }} />
-
-        <TextField
-          className="login-input"
-          fullWidth
-          label="Email"
-          margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <TextField
-          className="login-input"
-          fullWidth
-          label="Password"
-          type="password"
-          margin="normal"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        {error && (
-          <Typography className="login-error" mt={1}>
-            {error}
+          <Typography
+            className="login-title"
+            variant="h5"
+            fontWeight={700}
+            textAlign="center"
+          >
+            Admin Login
           </Typography>
-        )}
 
-        <Button
-          className="login-btn"
-          fullWidth
-          sx={{ mt: 3 }}
-          onClick={handleLogin}
-        >
-          Login
-        </Button>
-      </Card>
-    </Box>
+          <Typography
+            className="login-subtitle"
+            fontSize={14}
+            textAlign="center"
+            mt={1}
+          >
+            Login with admin or super admin credentials
+          </Typography>
+
+          <Divider sx={{ my: 3 }} />
+
+          {/* <TextField
+            className="login-input"
+            fullWidth
+            label="Email"
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          /> */}
+          <TextField
+            className="login-input"
+            variant="outlined"
+            fullWidth
+            label="Email"
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          {/* <TextField
+            className="login-input"
+            fullWidth
+            label="Password"
+            type="password"
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          /> */}
+          <TextField
+            className="login-input"
+            variant="outlined"
+            fullWidth
+            label="Password"
+            type="password"
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {error && (
+            <Typography className="login-error" mt={1}>
+              {error}
+            </Typography>
+          )}
+
+          <Button
+            className="login-btn"
+            fullWidth
+            sx={{ mt: 3 }}
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+        </Card>
+      </Box>
+    </div>
   );
 };
 

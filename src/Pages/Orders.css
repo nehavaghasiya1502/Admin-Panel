@@ -1,0 +1,37 @@
+@media (max-width: 768px) {
+
+  .orders-table thead {
+    display: none;
+  }
+
+  .orders-table,
+  .orders-table tbody,
+  .orders-table tr,
+  .orders-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .orders-table tr {
+    background: inherit;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    padding: 14px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  }
+
+  .orders-table td {
+    border: none !important;
+    padding: 6px 0 !important;
+  }
+
+  .orders-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+
+}
