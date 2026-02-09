@@ -62,15 +62,6 @@ const Users = ({ users, setUsers, setActivePage, setSelectedUser }) => {
     setActivePage("edit-user");
   };
 
-  const handleUpdateUser = (updatedUser) => {
-    const updatedUsers = users.map((u) =>
-      u.id === updatedUser.id ? updatedUser : u
-    );
-
-    setUsers(updatedUsers);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedUsers));
-  };
-
   const handleDelete = (id) => {
     const updatedUsers = users.filter((u) => u.id !== id);
     setUsers(updatedUsers);
