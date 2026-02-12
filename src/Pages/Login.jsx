@@ -88,15 +88,6 @@ const Login = ({ setIsLoggedIn }) => {
           </Typography>
 
           <Divider sx={{ my: 3 }} />
-
-          {/* <TextField
-            className="login-input"
-            fullWidth
-            label="Email"
-            margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          /> */}
           <TextField
             className="login-input"
             variant="outlined"
@@ -107,15 +98,6 @@ const Login = ({ setIsLoggedIn }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* <TextField
-            className="login-input"
-            fullWidth
-            label="Password"
-            type="password"
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          /> */}
           <TextField
             className="login-input"
             variant="outlined"

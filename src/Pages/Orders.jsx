@@ -17,9 +17,7 @@ import {
 } from "@mui/material";
 import "./Orders.css";
 
-const ORDERS_PER_PAGE = 6;
-const STORAGE_KEY = "orders_data";
-
+const ORDERS_PER_PAGE = 5;
 
 const statusList = ["Pending", "Shipped", "Delivered"];
 const statusColor = {
@@ -36,29 +34,36 @@ const Orders = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  /* FETCH ORDERS */
   useEffect(() => {
-  const storedOrders = localStorage.getItem(STORAGE_KEY);
+    Promise.all([
+      fetch("https://fakestoreapi.com/carts").then(res => res.json()),
+      fetch("https://dummyjson.com/users").then(res => res.json())
+    ]).then(([cartsData, usersData]) => {
 
-  if (storedOrders) {
-    // Refresh par same data
-    setOrders(JSON.parse(storedOrders));
-  } else {
-    // First time only
-    fetch("https://fakestoreapi.com/carts")
-      .then((res) => res.json())
-      .then((data) => {
-        const withStatus = data.map((o) => ({
-          ...o,
-          status: statusList[Math.floor(Math.random() * statusList.length)],
-        }));
+      const usersFromAPI = usersData.users;
 
-        setOrders(withStatus);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(withStatus));
+      const ordersWithUser = cartsData.map((order) => {
+        const user = usersFromAPI.find(u => u.id === order.userId);
+
+
+        return {
+          ...order,
+          status: statusList[order.id % statusList.length],
+
+          customer: user
+            ? {
+              id: user.id,
+              name: user.firstName + " " + user.lastName,
+              email: user.email,
+              avatar: user.image,
+            }
+            : null,
+        };
       });
-  }
-}, []);
 
+      setOrders(ordersWithUser);
+    });
+  }, []);
 
   /* COUNTS */
   const totalOrders = orders.length;
@@ -86,216 +91,215 @@ const Orders = () => {
 
   return (
     <div className="page-animate">
-    <Box sx={{ minHeight: "100vh", p: { xs: 1.5, md: 4 }, background: pageBg }}>
-      
-      {/* HEADER */}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={4}
-        flexWrap="wrap"
-        gap={2}
-      >
-        <Typography variant="h5" fontWeight={700} sx={{ color: textMain }}>
-          Orders
-        </Typography>
+      <Box sx={{ minHeight: "100vh", p: { xs: 1.5, md: 4 }, background: pageBg }}>
 
-        <TextField
-          size="small"
-          placeholder="Search order id..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
-          sx={{
-            width: { xs: "100%", sm: 260 },
-            "& .MuiOutlinedInput-root": {
-              borderRadius: 2,
-              background: cardBg,
-              color: textMain,
-            },
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: border,
-            },
-          }}
-        />
-      </Box>
+        {/* HEADER */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={4}
+          flexWrap="wrap"
+          gap={2}
+        >
+          <Typography variant="h5" fontWeight={700} sx={{ color: textMain }}>
+            Orders
+          </Typography>
 
-      {/* SUMMARY CARDS */}
-      <Box
-        display="grid"
-        gridTemplateColumns={{
-          xs: "1fr",
-          sm: "repeat(2,1fr)",
-          md: "repeat(4,1fr)",
-        }}
-        gap={3}
-        mb={4}
-      >
-        {[
-          { title: "Total Orders", value: totalOrders },
-          { title: "Pending", value: pendingOrders },
-          { title: "Shipped", value: shippedOrders },
-          { title: "Delivered", value: deliveredOrders },
-        ].map((item, i) => (
-          <Card
-            key={i}
-            sx={{
-              p: 2.5,
-              background: cardBg,
-              borderRadius: 3,
-              boxShadow: isDark
-                ? "0 0 25px rgba(99,102,241,0.2)"
-                : "0 10px 22px rgba(0,0,0,0.08)",
+          <TextField
+            size="small"
+            placeholder="Search order id..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
             }}
-          >
-            <Typography variant="body2" sx={{ color: textMuted }}>
-              {item.title}
-            </Typography>
-            <Typography variant="h5" fontWeight={700} sx={{ color: textMain }}>
-              {item.value}
-            </Typography>
-          </Card>
-        ))}
-      </Box>
+            sx={{
+              width: { xs: "100%", sm: 260 },
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+                background: cardBg,
+                color: textMain,
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: border,
+              },
+            }}
+          />
+        </Box>
 
-      {/* ORDERS TABLE */}
-      <Card
-        sx={{
-          background: cardBg,
-          borderRadius: 4,
-          boxShadow: isDark
-            ? "0 0 30px rgba(99,102,241,0.18)"
-            : "0 12px 28px rgba(0,0,0,0.08)",
-        }}
-      >
-        <TableContainer>
-          <Table>
+        {/* SUMMARY CARDS */}
+        <Box
+          display="grid"
+          gridTemplateColumns={{
+            xs: "1fr",
+            sm: "repeat(2,1fr)",
+            md: "repeat(4,1fr)",
+          }}
+          gap={3}
+          mb={4}
+        >
+          {[
+            { title: "Total Orders", value: totalOrders },
+            { title: "Pending", value: pendingOrders },
+            { title: "Shipped", value: shippedOrders },
+            { title: "Delivered", value: deliveredOrders },
+          ].map((item, i) => (
+            <Card
+              key={i}
+              sx={{
+                p: 2.5,
+                background: cardBg,
+                borderRadius: 3,
+                boxShadow: isDark
+                  ? "0 0 25px rgba(99,102,241,0.2)"
+                  : "0 10px 22px rgba(0,0,0,0.08)",
+              }}
+            >
+              <Typography variant="body2" sx={{ color: textMuted }}>
+                {item.title}
+              </Typography>
+              <Typography variant="h5" fontWeight={700} sx={{ color: textMain }}>
+                {item.value}
+              </Typography>
+            </Card>
+          ))}
+        </Box>
 
-            {/* TABLE HEAD */}
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ color: textMain, fontWeight: 700 }}>
-                  Order
-                </TableCell>
-                <TableCell sx={{ color: textMain, fontWeight: 700 }}>
-                  Details
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
-                  Date
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
-                  Items
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
-                  Status
-                </TableCell>
-              </TableRow>
-            </TableHead>
+        {/* ORDERS TABLE */}
+        <Card
+          sx={{
+            background: cardBg,
+            borderRadius: 4,
+            boxShadow: isDark
+              ? "0 0 30px rgba(99,102,241,0.18)"
+              : "0 12px 28px rgba(0,0,0,0.08)",
+          }}
+        >
+          <TableContainer>
+            <Table>
 
-            {/* TABLE BODY */}
-            <TableBody>
-              {paginatedOrders.map((o) => (
-                <TableRow
-                  key={o.id}
-                  hover
-                  sx={{
-                    "& td": {
-                      borderBottom: `1px solid ${border}`,
-                      color: textMuted,
-                    },
-                    "&:hover": { backgroundColor: hoverBg },
-                  }}
-                >
-                  <TableCell>#{o.id}</TableCell>
+              {/* TABLE HEAD */}
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ color: textMain, fontWeight: 700 }}>
+                    Order
+                  </TableCell>
+                  <TableCell sx={{ color: textMain, fontWeight: 700 }}>
+                    Details
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
+                    Date
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
+                    Items
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", md: "table-cell" }, color: textMain, fontWeight: 700 }}>
+                    Status
+                  </TableCell>
+                </TableRow>
+              </TableHead>
 
-                  {/* DETAILS */}
-                  <TableCell>
-                    {/* DESKTOP */}
-                    <Box display={{ xs: "none", md: "flex" }} gap={1.5}>
-                      <Avatar
-                        src={`https://i.pravatar.cc/150?img=${o.userId}`}
-                        sx={{ width: 32, height: 32 }}
-                      />
-                      <Typography sx={{ color: textMain }}>
-                        Customer {o.userId}
-                      </Typography>
-                    </Box>
+              {/* TABLE BODY */}
+              <TableBody>
+                {paginatedOrders.map((o) => (
+                  <TableRow
+                    key={o.id}
+                    hover
+                    sx={{
+                      "& td": {
+                        borderBottom: `1px solid ${border}`,
+                        color: textMuted,
+                      },
+                      "&:hover": { backgroundColor: hoverBg },
+                    }}
+                  >
+                    <TableCell>#{o.id}</TableCell>
 
-                    {/* MOBILE CARD VIEW */}
-                    <Box display={{ xs: "block", md: "none" }}>
-                      <Typography fontWeight={600} sx={{ color: textMain }}>
-                        Customer {o.userId}
-                      </Typography>
-                      <Typography variant="body2">
-                        📅 {o.date.slice(0, 10)}
-                      </Typography>
-                      <Typography variant="body2">
-                        📦 Items: {o.products.length}
-                      </Typography>
+                    {/* DETAILS */}
+                    <TableCell>
+                      <Box display={{ xs: "none", md: "flex" }} gap={1.5}>
+                        <Avatar
+                          src={o.customer?.avatar}
+                          sx={{ width: 32, height: 32 }}
+                        />
+                        <Typography sx={{ color: textMain }}>
+                          {o.customer?.name || "Unknown User"}
+                        </Typography>
+                      </Box>
+
+                      {/* MOBILE CARD VIEW */}
+                      <Box display={{ xs: "block", md: "none" }}>
+                        <Typography fontWeight={600} sx={{ color: textMain }}>
+                          Customer {o.userId}
+                        </Typography>
+                        <Typography variant="body2">
+                          📅 {o.date.slice(0, 10)}
+                        </Typography>
+                        <Typography variant="body2">
+                          📦 Items: {o.products.length}
+                        </Typography>
+                        <Chip
+                          label={o.status}
+                          size="small"
+                          sx={{
+                            mt: 1,
+                            background: statusColor[o.status],
+                            color: "#fff",
+                            fontWeight: 600,
+                          }}
+                        />
+                      </Box>
+                    </TableCell>
+
+                    <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
+                      {o.date.slice(0, 10)}
+                    </TableCell>
+
+                    <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
+                      {o.products.length}
+                    </TableCell>
+
+                    <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
                       <Chip
                         label={o.status}
                         size="small"
                         sx={{
-                          mt: 1,
                           background: statusColor[o.status],
                           color: "#fff",
                           fontWeight: 600,
                         }}
                       />
-                    </Box>
-                  </TableCell>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-                  <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
-                    {o.date.slice(0, 10)}
-                  </TableCell>
-
-                  <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
-                    {o.products.length}
-                  </TableCell>
-
-                  <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
-                    <Chip
-                      label={o.status}
-                      size="small"
-                      sx={{
-                        background: statusColor[o.status],
-                        color: "#fff",
-                        fontWeight: 600,
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {/* PAGINATION */}
-        {totalPages > 1 && (
-          <Box display="flex" justifyContent="center" py={3}>
-            <Pagination
-              count={totalPages}
-              page={page}
-              onChange={(_, v) => setPage(v)}
-              shape="rounded"
-              sx={{
-                "& .MuiPaginationItem-root": {
-                  color: textMain,
-                  fontWeight: 600,
-                },
-                "& .Mui-selected": {
-                  background: "linear-gradient(135deg,#6366f1,#4f46e5)",
-                  color: "#fff",
-                },
-              }}
-            />
-          </Box>
-        )}
-      </Card>
-    </Box>
+          {/* PAGINATION */}
+          {totalPages > 1 && (
+            <Box display="flex" justifyContent="center" py={3}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={(_, v) => setPage(v)}
+                shape="rounded"
+                sx={{
+                  "& .MuiPaginationItem-root": {
+                    color: textMain,
+                    fontWeight: 600,
+                  },
+                  "& .Mui-selected": {
+                    background: "linear-gradient(135deg,#6366f1,#4f46e5)",
+                    color: "#fff",
+                  },
+                }}
+              />
+            </Box>
+          )}
+        </Card>
+      </Box>
     </div>
   );
 };

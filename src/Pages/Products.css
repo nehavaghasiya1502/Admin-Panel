@@ -192,10 +192,7 @@ body:not(.dark-theme) .pagination button:hover:not(.active) {
   background-color: #16a34a;
 }
 
-/* ===================== */
 /* MOBILE TABLE → CARD */
-/* ===================== */
-
 @media (max-width: 768px) {
   .products-table thead {
     display: none;

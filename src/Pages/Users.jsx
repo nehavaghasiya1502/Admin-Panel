@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Avatar,
   Box,
@@ -37,6 +37,13 @@ const Users = ({ users, setUsers, setActivePage, setSelectedUser }) => {
   const [page, setPage] = useState(1);
 
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    const storedUsers = localStorage.getItem(STORAGE_KEY);
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    }
+  }, [setUsers]);
 
   /* FILTER + PAGINATION */
   const filtered = users.filter(
@@ -165,10 +172,7 @@ const Users = ({ users, setUsers, setActivePage, setSelectedUser }) => {
                       <Avatar src={user.avatar} />
                       <Typography
                         fontWeight={600}
-                        sx={{
-                          color:
-                            theme === "dark" ? "#e5e7eb" : "#020617"
-                        }}
+                        sx={{ color: theme === "dark" ? "#e5e7eb" : "#020617" }}
                       >
                         {user.name}
                       </Typography>
@@ -177,22 +181,14 @@ const Users = ({ users, setUsers, setActivePage, setSelectedUser }) => {
 
                   <TableCell
                     data-label="Email"
-                    sx={{
-                      color:
-                        theme === "dark" ? "#9ca3af" : "#475569",
-                      wordBreak: "break-all"
-                    }}
+                    sx={{ color: theme === "dark" ? "#9ca3af" : "#475569", wordBreak: "break-all" }}
                   >
                     {user.email}
                   </TableCell>
 
                   <TableCell
                     data-label="Country"
-                    fontWeight={600}
-                    sx={{
-                      color:
-                        theme === "dark" ? "#e5e7eb" : "#020617"
-                    }}
+                    sx={{ color: theme === "dark" ? "#e5e7eb" : "#020617" }}
                   >
                     🌍 {user.country}
                   </TableCell>
@@ -218,52 +214,29 @@ const Users = ({ users, setUsers, setActivePage, setSelectedUser }) => {
                         sx={{
                           color: statusColors[user.status],
                           "& .MuiCircularProgress-track": {
-                            color:
-                              theme === "dark"
-                                ? "#1e293b"
-                                : "#e5e7eb"
+                            color: theme === "dark" ? "#1e293b" : "#e5e7eb"
                           }
                         }}
                       />
-                      <Typography
-                        fontWeight={600}
-                        sx={{
-                          color:
-                            theme === "dark" ? "#e5e7eb" : "#020617"
-                        }}
-                      >
+                      <Typography fontWeight={600} sx={{ color: theme === "dark" ? "#e5e7eb" : "#020617" }}>
                         {user.usage}%
                       </Typography>
                     </Box>
                   </TableCell>
 
-                  <TableCell
-                    data-label="Last Login"
-                    sx={{ color: "gray" }}
-                  >
+                  <TableCell data-label="Last Login" sx={{ color: "gray" }}>
                     {user.lastLogin}
                   </TableCell>
 
-                  <TableCell
-                    data-label="Actions"
-                    className="actions-cell"
-                  >
+                  <TableCell data-label="Actions" className="actions-cell">
                     <Tooltip title="Edit">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => handleEdit(user)}
-                      >
+                      <IconButton size="small" color="primary" onClick={() => handleEdit(user)}>
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
 
                     <Tooltip title="Delete">
-                      <IconButton
-                        size="small"
-                        color="error"
-                        onClick={() => handleDelete(user.id)}
-                      >
+                      <IconButton size="small" color="error" onClick={() => handleDelete(user.id)}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -283,15 +256,8 @@ const Users = ({ users, setUsers, setActivePage, setSelectedUser }) => {
               onChange={(_, val) => setPage(val)}
               shape="rounded"
               sx={{
-                "& .MuiPaginationItem-root": {
-                  color: theme === "dark" ? "#fff" : "#020617",
-                  fontWeight: 600
-                },
-                "& .Mui-selected": {
-                  background:
-                    "linear-gradient(135deg,#3b82f6,#06b6d4)",
-                  color: "#fff"
-                }
+                "& .MuiPaginationItem-root": { color: theme === "dark" ? "#fff" : "#020617", fontWeight: 600 },
+                "& .Mui-selected": { background: "linear-gradient(135deg,#3b82f6,#06b6d4)", color: "#fff" }
               }}
             />
           </Box>
